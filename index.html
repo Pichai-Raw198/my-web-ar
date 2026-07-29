@@ -80,10 +80,21 @@
             z-index: 100;
             display: none;
         }
+        #debug-info {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(255,255,0,0.9);
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <!-- หน้าเริ่มต้น -->
     <div id="start-screen">
         <h1>🎬 Web AR Video</h1>
         <p>ส่องกล้องไปที่รูปภาพ A-F เพื่อชมวิดีโอ</p>
@@ -92,6 +103,7 @@
     
     <div id="loading">กำลังเปิดกล้อง...</div>
     <div id="status"></div>
+    <div id="debug-info">Debug Mode: ON</div>
     
     <a-scene 
         embedded 
@@ -100,9 +112,12 @@
               sourceHeight:960; 
               displayWidth:1280; 
               displayHeight:960; 
-              debugUIEnabled: false;"
+              debugUIEnabled: true;
+              detectionMode: mono_and_matrix;
+              matrixCodeType: 3x3;"
         vr-mode-ui="enabled: false"
-        renderer="logarithmicDepthBuffer: true; antialias: true;">
+        renderer="logarithmicDepthBuffer: true; antialias: true;"
+        debug>
         
         <!-- Marker A → Video 1 -->
         <a-marker type="pattern" url="markers/A.patt" id="markerA">
@@ -190,24 +205,23 @@
         const startScreen = document.getElementById('start-screen');
         const loading = document.getElementById('loading');
         const status = document.getElementById('status');
+        const debugInfo = document.getElementById('debug-info');
         
         let arStarted = false;
         let currentPlayingVideo = null;
         
-        // เมื่อผู้ใช้กดปุ่ม Start
         startBtn.addEventListener('click', function() {
             startScreen.style.display = 'none';
             loading.style.display = 'flex';
+            debugInfo.style.display = 'block';
             
-            // รอให้ AR โหลดเสร็จ
             setTimeout(function() {
                 loading.style.display = 'none';
                 arStarted = true;
-                showStatus(' ส่องกล้องไปที่รูปภาพ A-F');
+                showStatus('📷 ส่องกล้องไปที่รูปภาพ A-F');
             }, 2000);
         });
         
-        // ฟังก์ชันแสดงสถานะ
         function showStatus(message) {
             status.textContent = message;
             status.style.display = 'block';
@@ -216,7 +230,6 @@
             }, 3000);
         }
         
-        // ฟังก์ชันหยุดวิดีโอทั้งหมด
         function stopAllVideos() {
             const videos = ['video1', 'video2', 'video3', 'video4', 'video5', 'video6'];
             videos.forEach(function(vidId) {
@@ -232,9 +245,7 @@
             currentPlayingVideo = null;
         }
         
-        // ฟังก์ชันเล่นวิดีโอ
         function playVideo(videoId) {
-            // หยุดวิดีโออื่นก่อน
             stopAllVideos();
             
             const videoEl = document.getElementById(videoId);
@@ -244,6 +255,7 @@
                     video.video.currentTime = 0;
                     video.video.play().then(function() {
                         currentPlayingVideo = videoId;
+                        console.log('Playing:', videoId);
                     }).catch(function(e) {
                         console.log('Play error:', e);
                     });
@@ -251,7 +263,6 @@
             }
         }
         
-        // ตั้งค่า event listeners สำหรับ markers
         const markers = ['A', 'B', 'C', 'D', 'E', 'F'];
         const videos = ['video1', 'video2', 'video3', 'video4', 'video5', 'video6'];
         
@@ -260,16 +271,18 @@
             const videoId = videos[index];
             
             markerEl.addEventListener('markerFound', function() {
+                console.log('Marker found:', marker);
                 if (arStarted) {
                     playVideo(videoId);
-                    showStatus('▶️ วิดีโอ ' + (index + 1));
+                    showStatus('✅ จับ Marker ' + marker + ' ได้! กำลังเล่นวิดีโอ ' + (index + 1));
                 }
             });
             
             markerEl.addEventListener('markerLost', function() {
+                console.log('Marker lost:', marker);
                 if (currentPlayingVideo === videoId) {
                     stopAllVideos();
-                    showStatus('📷 ส่องกล้องเพื่อเล่นอีกครั้ง');
+                    showStatus('📷 Marker ' + marker + ' หายไป');
                 }
             });
         });
