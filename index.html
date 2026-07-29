@@ -3,107 +3,48 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Web AR - 6 Videos</title>
+    <title>Web AR - Test</title>
     
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-        }
+        body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }
         #start-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            text-align: center;
-            padding: 20px;
+            color: #fff; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 9999; text-align: center; padding: 20px;
         }
-        #start-screen h1 {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        #start-screen p {
-            font-size: 16px;
-            margin-bottom: 30px;
-            max-width: 400px;
-        }
+        #start-screen h1 { font-size: 28px; margin-bottom: 20px; }
+        #start-screen p { font-size: 16px; margin-bottom: 30px; max-width: 400px; }
         #start-btn {
-            background: #fff;
-            color: #667eea;
-            border: none;
-            padding: 15px 40px;
-            font-size: 20px;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        #start-btn:active {
-            transform: scale(0.95);
+            background: #fff; color: #667eea; border: none;
+            padding: 15px 40px; font-size: 20px; font-weight: bold;
+            border-radius: 50px; cursor: pointer;
         }
         #loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            color: #fff;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            z-index: 9998;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); color: #fff; display: none;
+            justify-content: center; align-items: center; font-size: 20px; z-index: 9998;
         }
         #status {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.7);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            z-index: 100;
-            display: none;
-        }
-        #debug-info {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            background: rgba(255,255,0,0.9);
-            color: #000;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            z-index: 1000;
-            display: none;
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.7); color: #fff; padding: 10px 20px;
+            border-radius: 20px; font-size: 14px; z-index: 100; display: none;
         }
     </style>
 </head>
 <body>
     <div id="start-screen">
-        <h1>🎬 Web AR Video</h1>
-        <p>ส่องกล้องไปที่รูปภาพ A-F เพื่อชมวิดีโอ</p>
+        <h1>🎬 Web AR Test</h1>
+        <p>ทดสอบ Hiro Marker ก่อน<br>แล้วค่อยทดสอบ Marker A-F</p>
         <button id="start-btn">เริ่มใช้งาน</button>
     </div>
     
     <div id="loading">กำลังเปิดกล้อง...</div>
     <div id="status"></div>
-    <div id="debug-info">Debug Mode: ON</div>
     
     <a-scene 
         embedded 
@@ -113,12 +54,17 @@
               displayWidth:1280; 
               displayHeight:960; 
               debugUIEnabled: true;
-              detectionMode: mono_and_matrix;
-              matrixCodeType: 3x3;"
+              detectionMode: mono_and_matrix;"
         vr-mode-ui="enabled: false"
         renderer="logarithmicDepthBuffer: true; antialias: true;"
         debug>
         
+        <!-- ✅ ทดสอบ Hiro Marker (มาตรฐาน) -->
+        <a-marker preset="hiro" id="markerHiro">
+            <a-box position="0 0.5 0" material="color: red;"></a-box>
+            <a-text value="HIRO WORKS!" position="0 1.5 0" align="center" color="yellow"></a-text>
+        </a-marker>
+
         <!-- Marker A → Video 1 -->
         <a-marker type="pattern" url="markers/A.patt" id="markerA">
             <a-video 
@@ -205,7 +151,6 @@
         const startScreen = document.getElementById('start-screen');
         const loading = document.getElementById('loading');
         const status = document.getElementById('status');
-        const debugInfo = document.getElementById('debug-info');
         
         let arStarted = false;
         let currentPlayingVideo = null;
@@ -213,12 +158,11 @@
         startBtn.addEventListener('click', function() {
             startScreen.style.display = 'none';
             loading.style.display = 'flex';
-            debugInfo.style.display = 'block';
             
             setTimeout(function() {
                 loading.style.display = 'none';
                 arStarted = true;
-                showStatus('📷 ส่องกล้องไปที่รูปภาพ A-F');
+                showStatus('📷 ทดสอบ Hiro Marker ก่อน!');
             }, 2000);
         });
         
@@ -230,6 +174,18 @@
             }, 3000);
         }
         
+        // ทดสอบ Hiro Marker
+        const hiroMarker = document.getElementById('markerHiro');
+        hiroMarker.addEventListener('markerFound', function() {
+            console.log('Hiro Marker found!');
+            showStatus('✅ Hiro Marker ทำงานได้!');
+        });
+        
+        hiroMarker.addEventListener('markerLost', function() {
+            console.log('Hiro Marker lost');
+        });
+        
+        // Marker A-F
         function stopAllVideos() {
             const videos = ['video1', 'video2', 'video3', 'video4', 'video5', 'video6'];
             videos.forEach(function(vidId) {
@@ -247,7 +203,6 @@
         
         function playVideo(videoId) {
             stopAllVideos();
-            
             const videoEl = document.getElementById(videoId);
             if (videoEl) {
                 const video = videoEl.getObject3D('mesh');
@@ -255,7 +210,6 @@
                     video.video.currentTime = 0;
                     video.video.play().then(function() {
                         currentPlayingVideo = videoId;
-                        console.log('Playing:', videoId);
                     }).catch(function(e) {
                         console.log('Play error:', e);
                     });
@@ -274,7 +228,7 @@
                 console.log('Marker found:', marker);
                 if (arStarted) {
                     playVideo(videoId);
-                    showStatus('✅ จับ Marker ' + marker + ' ได้! กำลังเล่นวิดีโอ ' + (index + 1));
+                    showStatus('✅ จับ Marker ' + marker + ' ได้!');
                 }
             });
             
@@ -282,7 +236,6 @@
                 console.log('Marker lost:', marker);
                 if (currentPlayingVideo === videoId) {
                     stopAllVideos();
-                    showStatus('📷 Marker ' + marker + ' หายไป');
                 }
             });
         });
