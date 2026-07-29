@@ -12,6 +12,46 @@
         body {
             margin: 0;
             overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        #start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            text-align: center;
+            padding: 20px;
+        }
+        #start-screen h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        #start-screen p {
+            font-size: 16px;
+            margin-bottom: 30px;
+            max-width: 400px;
+        }
+        #start-btn {
+            background: #fff;
+            color: #667eea;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        #start-btn:active {
+            transform: scale(0.95);
         }
         #loading {
             position: fixed;
@@ -21,26 +61,37 @@
             height: 100%;
             background: #000;
             color: #fff;
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             font-size: 20px;
-            z-index: 9999;
-            text-align: center;
-            padding: 20px;
+            z-index: 9998;
         }
-        /* บังคับไม่ให้กล้องซูม */
-        video {
-            object-fit: cover !important;
+        #status {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 100;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div id="loading">
-        กำลังโหลด...<br>
-        กรุณาอนุญาตให้ใช้กล้อง<br>
-        และส่องไปที่รูปภาพ
+    <!-- หน้าเริ่มต้น -->
+    <div id="start-screen">
+        <h1>🎬 Web AR Video</h1>
+        <p>ส่องกล้องไปที่รูปภาพ A-F เพื่อชมวิดีโอ</p>
+        <button id="start-btn">เริ่มใช้งาน</button>
     </div>
+    
+    <div id="loading">กำลังโหลดวิดีโอ...</div>
+    <div id="status"></div>
     
     <a-scene 
         embedded 
@@ -49,91 +100,90 @@
               sourceHeight:960; 
               displayWidth:1280; 
               displayHeight:960; 
-              debugUIEnabled: true;"
+              debugUIEnabled: false;
+              detectionMode: mono_and_matrix;
+              matrixCodeType: 3x3;"
         vr-mode-ui="enabled: false"
-        renderer="logarithmicDepthBuffer: true;"
-        debug>
+        renderer="logarithmicDepthBuffer: true; antialias: true;">
+        
+        <!-- Preload วิดีโอทั้งหมด -->
+        <a-assets>
+            <video id="vid1" src="videos/video1.mp4" preload="auto" webkit-playsinline playsinline></video>
+            <video id="vid2" src="videos/video2.mp4" preload="auto" webkit-playsinline playsinline></video>
+            <video id="vid3" src="videos/video3.mp4" preload="auto" webkit-playsinline playsinline></video>
+            <video id="vid4" src="videos/video4.mp4" preload="auto" webkit-playsinline playsinline></video>
+            <video id="vid5" src="videos/video5.mp4" preload="auto" webkit-playsinline playsinline></video>
+            <video id="vid6" src="videos/video6.mp4" preload="auto" webkit-playsinline playsinline></video>
+        </a-assets>
         
         <!-- Marker A → Video 1 -->
-        <a-marker type="pattern" url="markers/A.patt">
+        <a-marker type="pattern" url="markers/A.patt" id="markerA">
             <a-video 
-                src="videos/video1.mp4" 
-                width="4" 
-                height="2.25"
-                position="0 0.5 0"
+                src="#vid1" 
+                width="6" 
+                height="3.375"
+                position="0 1 0"
                 rotation="-90 0 0"
-                autoplay="true" 
-                muted="true"
                 loop="true">
             </a-video>
         </a-marker>
 
         <!-- Marker B → Video 2 -->
-        <a-marker type="pattern" url="markers/B.patt">
+        <a-marker type="pattern" url="markers/B.patt" id="markerB">
             <a-video 
-                src="videos/video2.mp4" 
-                width="4" 
-                height="2.25"
-                position="0 0.5 0"
+                src="#vid2" 
+                width="6" 
+                height="3.375"
+                position="0 1 0"
                 rotation="-90 0 0"
-                autoplay="true" 
-                muted="true"
                 loop="true">
             </a-video>
         </a-marker>
 
         <!-- Marker C → Video 3 -->
-        <a-marker type="pattern" url="markers/C.patt">
+        <a-marker type="pattern" url="markers/C.patt" id="markerC">
             <a-video 
-                src="videos/video3.mp4" 
-                width="4" 
-                height="2.25"
-                position="0 0.5 0"
+                src="#vid3" 
+                width="6" 
+                height="3.375"
+                position="0 1 0"
                 rotation="-90 0 0"
-                autoplay="true" 
-                muted="true"
                 loop="true">
             </a-video>
         </a-marker>
 
         <!-- Marker D → Video 4 -->
-        <a-marker type="pattern" url="markers/D.patt">
+        <a-marker type="pattern" url="markers/D.patt" id="markerD">
             <a-video 
-                src="videos/video4.mp4" 
-                width="4" 
-                height="2.25"
-                position="0 0.5 0"
+                src="#vid4" 
+                width="6" 
+                height="3.375"
+                position="0 1 0"
                 rotation="-90 0 0"
-                autoplay="true" 
-                muted="true"
                 loop="true">
             </a-video>
         </a-marker>
 
         <!-- Marker E → Video 5 -->
-        <a-marker type="pattern" url="markers/E.patt">
+        <a-marker type="pattern" url="markers/E.patt" id="markerE">
             <a-video 
-                src="videos/video5.mp4" 
-                width="4" 
-                height="2.25"
-                position="0 0.5 0"
+                src="#vid5" 
+                width="6" 
+                height="3.375"
+                position="0 1 0"
                 rotation="-90 0 0"
-                autoplay="true" 
-                muted="true"
                 loop="true">
             </a-video>
         </a-marker>
 
         <!-- Marker F → Video 6 -->
-        <a-marker type="pattern" url="markers/F.patt">
+        <a-marker type="pattern" url="markers/F.patt" id="markerF">
             <a-video 
-                src="videos/video6.mp4" 
-                width="4" 
-                height="2.25"
-                position="0 0.5 0"
+                src="#vid6" 
+                width="6" 
+                height="3.375"
+                position="0 1 0"
                 rotation="-90 0 0"
-                autoplay="true" 
-                muted="true"
                 loop="true">
             </a-video>
         </a-marker>
@@ -142,10 +192,66 @@
     </a-scene>
 
     <script>
-        window.addEventListener('load', function() {
+        const startBtn = document.getElementById('start-btn');
+        const startScreen = document.getElementById('start-screen');
+        const loading = document.getElementById('loading');
+        const status = document.getElementById('status');
+        
+        let arStarted = false;
+        
+        // เมื่อผู้ใช้กดปุ่ม Start
+        startBtn.addEventListener('click', function() {
+            startScreen.style.display = 'none';
+            loading.style.display = 'flex';
+            
+            // รอให้ AR โหลดเสร็จ
             setTimeout(function() {
-                document.getElementById('loading').style.display = 'none';
-            }, 3000);
+                loading.style.display = 'none';
+                arStarted = true;
+                status.style.display = 'block';
+                status.textContent = '📷 ส่องกล้องไปที่รูปภาพ A-F';
+                
+                // ซ่อน status หลังจาก 5 วินาที
+                setTimeout(function() {
+                    status.style.display = 'none';
+                }, 5000);
+            }, 2000);
+        });
+        
+        // ควบคุมการเล่นวิดีโอเมื่อจับ marker ได้
+        const markers = ['A', 'B', 'C', 'D', 'E', 'F'];
+        const videos = ['vid1', 'vid2', 'vid3', 'vid4', 'vid5', 'vid6'];
+        
+        markers.forEach((marker, index) => {
+            const markerEl = document.getElementById('marker' + marker);
+            const videoEl = document.getElementById(videos[index]);
+            
+            markerEl.addEventListener('markerFound', function() {
+                // หยุดวิดีโออื่นทั้งหมดก่อน
+                videos.forEach((vid, i) => {
+                    if (i !== index) {
+                        document.getElementById(vid).pause();
+                    }
+                });
+                
+                // เล่นวิดีโอที่จับได้
+                videoEl.play().catch(e => {
+                    console.log('Play error:', e);
+                });
+                
+                status.textContent = '▶️ กำลังเล่นวิดีโอ ' + (index + 1);
+                status.style.display = 'block';
+            });
+            
+            markerEl.addEventListener('markerLost', function() {
+                videoEl.pause();
+                status.textContent = '📷 ส่องกล้องไปที่รูปภาพ A-F';
+                status.style.display = 'block';
+                
+                setTimeout(function() {
+                    status.style.display = 'none';
+                }, 2000);
+            });
         });
     </script>
 </body>
