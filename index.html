@@ -35,14 +35,32 @@
             background: rgba(0,0,0,0.7); color: #fff; padding: 10px 20px;
             border-radius: 20px; font-size: 14px; z-index: 100; display: none;
         }
+        
+        /* ปุ่มเปิดเสียง - มุมขวาบน */
         #unmute-btn {
-            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-            background: #fff; color: #667eea; border: none;
-            padding: 12px 25px; border-radius: 25px; font-size: 16px;
-            font-weight: bold; z-index: 100; display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #fff;
+            color: #667eea;
+            border: 3px solid #667eea;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            z-index: 9999;
+            display: none;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            animation: bounce 1s infinite;
         }
-        #unmute-btn:active { transform: translateX(-50%) scale(0.95); }
+        #unmute-btn:active { transform: scale(0.95); }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
         .a-enter-vr, .a-vr-button, #VR-Button { display: none !important; }
     </style>
 </head>
@@ -55,7 +73,7 @@
     
     <div id="loading">กำลังโหลดระบบ AR...<br>กรุณารอสักครู่</div>
     <div id="status"></div>
-    <button id="unmute-btn">🔊 เปิดเสียง</button>
+    <button id="unmute-btn"> แตะเพื่อเปิดเสียง</button>
     
     <a-scene 
         mindar-image="imageTargetSrc: markers/targets.mind; 
@@ -248,7 +266,7 @@
                 console.log('Target lost:', targetIndex);
                 if (currentPlayingVideo === videoId) {
                     stopAllVideos();
-                    showStatus('📷 ส่องกล้องเพื่อเล่นอีกครั้ง');
+                    showStatus(' ส่องกล้องเพื่อเล่นอีกครั้ง');
                 }
             });
         });
