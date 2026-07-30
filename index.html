@@ -41,11 +41,11 @@
 <body>
     <div id="start-screen">
         <h1>🎬 Web AR Video</h1>
-        <p>ส่องกล้องไปที่รูปภาพ A-F เพื่อชมวิดีโอ</p>
+        <p>ส่องกล้องไปที่รูปภาพ การปฐมพยาบาล เพื่อชมวิดีโอ</p>
         <button id="start-btn">เริ่มใช้งาน</button>
     </div>
     
-    <div id="loading">กำลังโหลดระบบ AR...<br>กรุณารอสักครู่</div>
+    <div id="loading">กำลังโหลด...<br>กรุณารอสักครู่</div>
     <div id="status"></div>
     
     <a-scene 
@@ -210,7 +210,7 @@
                 console.log('Target found:', targetIndex);
                 if (arStarted) {
                     playVideo(videoId);
-                    showStatus('✅ จับรูปได้! กำลังเล่นวิดีโอ ' + (targetIndex + 1));
+                    showStatus('✅  กำลังเล่นวิดีโอ ' + (targetIndex + 1));
                 }
             });
             
