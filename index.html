@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Web AR - MindAR Video</title>
     
-    <!-- MindAR + A-Frame -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     
@@ -83,10 +82,13 @@
             z-index: 100;
             display: none;
         }
+        /* ซ่อน VR button และ UI ทั้งหมด */
+        .a-enter-vr, .a-vr-button, .a-frame-inspector, #VR-Button {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
-    <!-- หน้าเริ่มต้น -->
     <div id="start-screen">
         <h1>🎬 Web AR Video</h1>
         <p>ส่องกล้องไปที่รูปภาพ A-F เพื่อชมวิดีโอ</p>
@@ -98,7 +100,12 @@
     
     <!-- MindAR Scene -->
     <a-scene 
-        mindar-image="imageTargetSrc: markers/targets.mind; autoStart: false;"
+        mindar-image="imageTargetSrc: markers/targets.mind; 
+                      autoStart: false;
+                      maxTrack: 6;
+                      filterMinCF: 0.001;
+                      filterBeta: 0.001;
+                      uiScanning: #scan-ui;"
         vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false"
         color-space="sRGB"
@@ -115,76 +122,76 @@
         </a-assets>
 
         <!-- Target 0 (รูป A) → Video 1 -->
-<a-entity mindar-image-target="targetIndex: 0">
-    <a-entity rotation="90 0 0">
-        <a-video 
-            id="video1"
-            src="#vid1"
-            width="6" 
-            height="3.375">
-        </a-video>
-    </a-entity>
-</a-entity>
+        <a-entity mindar-image-target="targetIndex: 0">
+            <a-entity rotation="90 0 0" position="0 0 0">
+                <a-video 
+                    id="video1"
+                    src="#vid1"
+                    width="6" 
+                    height="3.375">
+                </a-video>
+            </a-entity>
+        </a-entity>
 
-<!-- Target 1 (รูป B) → Video 2 -->
-<a-entity mindar-image-target="targetIndex: 1">
-    <a-entity rotation="90 0 0">
-        <a-video 
-            id="video2"
-            src="#vid2"
-            width="6" 
-            height="3.375">
-        </a-video>
-    </a-entity>
-</a-entity>
+        <!-- Target 1 (รูป B) → Video 2 -->
+        <a-entity mindar-image-target="targetIndex: 1">
+            <a-entity rotation="90 0 0" position="0 0 0">
+                <a-video 
+                    id="video2"
+                    src="#vid2"
+                    width="6" 
+                    height="3.375">
+                </a-video>
+            </a-entity>
+        </a-entity>
 
-<!-- Target 2 (รูป C) → Video 3 -->
-<a-entity mindar-image-target="targetIndex: 2">
-    <a-entity rotation="90 0 0">
-        <a-video 
-            id="video3"
-            src="#vid3"
-            width="6" 
-            height="3.375">
-        </a-video>
-    </a-entity>
-</a-entity>
+        <!-- Target 2 (รูป C) → Video 3 -->
+        <a-entity mindar-image-target="targetIndex: 2">
+            <a-entity rotation="90 0 0" position="0 0 0">
+                <a-video 
+                    id="video3"
+                    src="#vid3"
+                    width="6" 
+                    height="3.375">
+                </a-video>
+            </a-entity>
+        </a-entity>
 
-<!-- Target 3 (รูป D) → Video 4 -->
-<a-entity mindar-image-target="targetIndex: 3">
-    <a-entity rotation="90 0 0">
-        <a-video 
-            id="video4"
-            src="#vid4"
-            width="6" 
-            height="3.375">
-        </a-video>
-    </a-entity>
-</a-entity>
+        <!-- Target 3 (รูป D) → Video 4 -->
+        <a-entity mindar-image-target="targetIndex: 3">
+            <a-entity rotation="90 0 0" position="0 0 0">
+                <a-video 
+                    id="video4"
+                    src="#vid4"
+                    width="6" 
+                    height="3.375">
+                </a-video>
+            </a-entity>
+        </a-entity>
 
-<!-- Target 4 (รูป E) → Video 5 -->
-<a-entity mindar-image-target="targetIndex: 4">
-    <a-entity rotation="90 0 0">
-        <a-video 
-            id="video5"
-            src="#vid5"
-            width="6" 
-            height="3.375">
-        </a-video>
-    </a-entity>
-</a-entity>
+        <!-- Target 4 (รูป E) → Video 5 -->
+        <a-entity mindar-image-target="targetIndex: 4">
+            <a-entity rotation="90 0 0" position="0 0 0">
+                <a-video 
+                    id="video5"
+                    src="#vid5"
+                    width="6" 
+                    height="3.375">
+                </a-video>
+            </a-entity>
+        </a-entity>
 
-<!-- Target 5 (รูป F) → Video 6 -->
-<a-entity mindar-image-target="targetIndex: 5">
-    <a-entity rotation="90 0 0">
-        <a-video 
-            id="video6"
-            src="#vid6"
-            width="6" 
-            height="3.375">
-        </a-video>
-    </a-entity>
-</a-entity>
+        <!-- Target 5 (รูป F) → Video 6 -->
+        <a-entity mindar-image-target="targetIndex: 5">
+            <a-entity rotation="90 0 0" position="0 0 0">
+                <a-video 
+                    id="video6"
+                    src="#vid6"
+                    width="6" 
+                    height="3.375">
+                </a-video>
+            </a-entity>
+        </a-entity>
 
         <a-camera active="true" look-controls="enabled: false"></a-camera>
     </a-scene>
@@ -198,19 +205,17 @@
         let arStarted = false;
         let currentPlayingVideo = null;
         
-        // เมื่อผู้ใช้กดปุ่ม Start
         startBtn.addEventListener('click', function() {
             startScreen.style.display = 'none';
             loading.style.display = 'flex';
             
-            // เริ่ม MindAR
             const scene = document.querySelector('a-scene');
             scene.systems['mindar-image-system'].start();
             
             setTimeout(function() {
                 loading.style.display = 'none';
                 arStarted = true;
-                showStatus(' ส่องกล้องไปที่รูปภาพ A-F');
+                showStatus('📷 ส่องกล้องไปที่รูปภาพ วิธีการปฐมพยาบาล');
             }, 3000);
         });
         
@@ -241,14 +246,12 @@
                 video.currentTime = 0;
                 video.play().then(function() {
                     currentPlayingVideo = videoId;
-                    console.log('Playing:', videoId);
                 }).catch(function(e) {
                     console.log('Play error:', e);
                 });
             }
         }
         
-        // ตั้งค่า event listeners สำหรับ targets
         const targets = [0, 1, 2, 3, 4, 5];
         const videos = ['vid1', 'vid2', 'vid3', 'vid4', 'vid5', 'vid6'];
         
