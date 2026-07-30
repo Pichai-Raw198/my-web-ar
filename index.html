@@ -9,103 +9,51 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-        }
+        body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }
         #start-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            text-align: center;
-            padding: 20px;
+            color: #fff; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 9999; text-align: center; padding: 20px;
         }
-        #start-screen h1 {
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        #start-screen p {
-            font-size: 16px;
-            margin-bottom: 30px;
-            max-width: 400px;
-        }
+        #start-screen h1 { font-size: 28px; margin-bottom: 20px; }
+        #start-screen p { font-size: 16px; margin-bottom: 30px; max-width: 400px; }
         #start-btn {
-            background: #fff;
-            color: #667eea;
-            border: none;
-            padding: 15px 40px;
-            font-size: 20px;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            background: #fff; color: #667eea; border: none;
+            padding: 15px 40px; font-size: 20px; font-weight: bold;
+            border-radius: 50px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        #start-btn:active {
-            transform: scale(0.95);
-        }
+        #start-btn:active { transform: scale(0.95); }
         #loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            color: #fff;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            z-index: 9998;
-            text-align: center;
-            padding: 20px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); color: #fff; display: none;
+            justify-content: center; align-items: center; font-size: 20px; z-index: 9998;
         }
         #status {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.7);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            z-index: 100;
-            display: none;
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.7); color: #fff; padding: 10px 20px;
+            border-radius: 20px; font-size: 14px; z-index: 100; display: none;
         }
-        /* ซ่อน VR button และ UI ทั้งหมด */
-        .a-enter-vr, .a-vr-button, .a-frame-inspector, #VR-Button {
-            display: none !important;
-        }
+        .a-enter-vr, .a-vr-button, #VR-Button { display: none !important; }
     </style>
 </head>
 <body>
     <div id="start-screen">
         <h1>🎬 Web AR Video</h1>
-        <p>ส่องกล้องไปที่รูปภาพ การปฐมพยาบาล เพื่อชมวิดีโอ</p>
+        <p>ส่องกล้องไปที่รูปภาพ A-F เพื่อชมวิดีโอ</p>
         <button id="start-btn">เริ่มใช้งาน</button>
     </div>
     
     <div id="loading">กำลังโหลดระบบ AR...<br>กรุณารอสักครู่</div>
     <div id="status"></div>
     
-    <!-- MindAR Scene -->
     <a-scene 
         mindar-image="imageTargetSrc: markers/targets.mind; 
                       autoStart: false;
                       maxTrack: 6;
                       filterMinCF: 0.001;
-                      filterBeta: 0.001;
-                      uiScanning: #scan-ui;"
+                      filterBeta: 0.001;"
         vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false"
         color-space="sRGB"
@@ -113,83 +61,83 @@
         camera="active: false">
         
         <a-assets>
-            <video id="vid1" src="videos/video1.mp4" preload="auto" webkit-playsinline playsinline loop></video>
-            <video id="vid2" src="videos/video2.mp4" preload="auto" webkit-playsinline playsinline loop></video>
-            <video id="vid3" src="videos/video3.mp4" preload="auto" webkit-playsinline playsinline loop></video>
-            <video id="vid4" src="videos/video4.mp4" preload="auto" webkit-playsinline playsinline loop></video>
-            <video id="vid5" src="videos/video5.mp4" preload="auto" webkit-playsinline playsinline loop></video>
-            <video id="vid6" src="videos/video6.mp4" preload="auto" webkit-playsinline playsinline loop></video>
+            <video id="vid1" src="videos/video1.mp4" preload="auto" webkit-playsinline playsinline loop crossorigin="anonymous"></video>
+            <video id="vid2" src="videos/video2.mp4" preload="auto" webkit-playsinline playsinline loop crossorigin="anonymous"></video>
+            <video id="vid3" src="videos/video3.mp4" preload="auto" webkit-playsinline playsinline loop crossorigin="anonymous"></video>
+            <video id="vid4" src="videos/video4.mp4" preload="auto" webkit-playsinline playsinline loop crossorigin="anonymous"></video>
+            <video id="vid5" src="videos/video5.mp4" preload="auto" webkit-playsinline playsinline loop crossorigin="anonymous"></video>
+            <video id="vid6" src="videos/video6.mp4" preload="auto" webkit-playsinline playsinline loop crossorigin="anonymous"></video>
         </a-assets>
 
         <!-- Target 0 (รูป A) → Video 1 -->
         <a-entity mindar-image-target="targetIndex: 0">
-            <a-entity rotation="90 0 0" position="0 0 0">
-                <a-video 
-                    id="video1"
-                    src="#vid1"
+            <a-entity rotation="-90 0 0" position="0 1 0">
+                <a-plane 
+                    id="plane1"
+                    material="src: #vid1; shader: flat; side: double; transparent: true;"
                     width="6" 
                     height="3.375">
-                </a-video>
+                </a-plane>
             </a-entity>
         </a-entity>
 
         <!-- Target 1 (รูป B) → Video 2 -->
         <a-entity mindar-image-target="targetIndex: 1">
-            <a-entity rotation="90 0 0" position="0 0 0">
-                <a-video 
-                    id="video2"
-                    src="#vid2"
+            <a-entity rotation="-90 0 0" position="0 1 0">
+                <a-plane 
+                    id="plane2"
+                    material="src: #vid2; shader: flat; side: double; transparent: true;"
                     width="6" 
                     height="3.375">
-                </a-video>
+                </a-plane>
             </a-entity>
         </a-entity>
 
         <!-- Target 2 (รูป C) → Video 3 -->
         <a-entity mindar-image-target="targetIndex: 2">
-            <a-entity rotation="0 0 90" position="0 0 0">
-                <a-video 
-                    id="video3"
-                    src="#vid3"
+            <a-entity rotation="-90 0 0" position="0 1 0">
+                <a-plane 
+                    id="plane3"
+                    material="src: #vid3; shader: flat; side: double; transparent: true;"
                     width="6" 
                     height="3.375">
-                </a-video>
+                </a-plane>
             </a-entity>
         </a-entity>
 
         <!-- Target 3 (รูป D) → Video 4 -->
         <a-entity mindar-image-target="targetIndex: 3">
-            <a-entity rotation="0 0 90" position="0 0 0">
-                <a-video 
-                    id="video4"
-                    src="#vid4"
+            <a-entity rotation="-90 0 0" position="0 1 0">
+                <a-plane 
+                    id="plane4"
+                    material="src: #vid4; shader: flat; side: double; transparent: true;"
                     width="6" 
                     height="3.375">
-                </a-video>
+                </a-plane>
             </a-entity>
         </a-entity>
 
         <!-- Target 4 (รูป E) → Video 5 -->
         <a-entity mindar-image-target="targetIndex: 4">
-            <a-entity rotation="0 0 90" position="0 0 0">
-                <a-video 
-                    id="video5"
-                    src="#vid5"
+            <a-entity rotation="-90 0 0" position="0 1 0">
+                <a-plane 
+                    id="plane5"
+                    material="src: #vid5; shader: flat; side: double; transparent: true;"
                     width="6" 
                     height="3.375">
-                </a-video>
+                </a-plane>
             </a-entity>
         </a-entity>
 
         <!-- Target 5 (รูป F) → Video 6 -->
         <a-entity mindar-image-target="targetIndex: 5">
-            <a-entity rotation="0 0 90" position="0 0 0">
-                <a-video 
-                    id="video6"
-                    src="#vid6"
+            <a-entity rotation="-90 0 0" position="0 1 0">
+                <a-plane 
+                    id="plane6"
+                    material="src: #vid6; shader: flat; side: double; transparent: true;"
                     width="6" 
                     height="3.375">
-                </a-video>
+                </a-plane>
             </a-entity>
         </a-entity>
 
@@ -215,7 +163,7 @@
             setTimeout(function() {
                 loading.style.display = 'none';
                 arStarted = true;
-                showStatus('📷 ส่องกล้องไปที่รูปภาพ วิธีการปฐมพยาบาล');
+                showStatus('📷 ส่องกล้องไปที่รูปภาพ A-F');
             }, 3000);
         });
         
