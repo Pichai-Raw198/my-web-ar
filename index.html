@@ -35,21 +35,31 @@
             background: rgba(0,0,0,0.7); color: #fff; padding: 10px 20px;
             border-radius: 20px; font-size: 14px; z-index: 100; display: none;
         }
+        #unmute-btn {
+            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+            background: #fff; color: #667eea; border: none;
+            padding: 12px 25px; border-radius: 25px; font-size: 16px;
+            font-weight: bold; z-index: 100; display: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        #unmute-btn:active { transform: translateX(-50%) scale(0.95); }
         .a-enter-vr, .a-vr-button, #VR-Button { display: none !important; }
     </style>
 </head>
 <body>
     <div id="start-screen">
         <h1>🎬 Web AR Video</h1>
-        <p>ส่องกล้องไปที่รูปภาพ การปฐมพยาบาล เพื่อชมวิดีโอ</p>
+        <p>ส่องกล้องไปที่รูปภาพ A-F เพื่อชมวิดีโอ</p>
         <button id="start-btn">เริ่มใช้งาน</button>
     </div>
     
-    <div id="loading">กำลังโหลด...<br>กรุณารอสักครู่</div>
+    <div id="loading">กำลังโหลดระบบ AR...<br>กรุณารอสักครู่</div>
     <div id="status"></div>
+    <button id="unmute-btn">🔊 เปิดเสียง</button>
     
     <a-scene 
-          mindar-image="imageTargetSrc: markers/targets.mind; autoStart: true; ..."
+        mindar-image="imageTargetSrc: markers/targets.mind; 
+                      autoStart: false;
                       maxTrack: 6;
                       filterMinCF: 0.001;
                       filterBeta: 0.001;"
@@ -59,85 +69,86 @@
         renderer="colorManagement: true, physicallyCorrectLights"
         camera="active: false">
         
-       <a-assets>
-    <video id="vid1" src="videos/video1.mp4" preload="auto" webkit-playsinline playsinline loop muted crossorigin="anonymous"></video>
-    <video id="vid2" src="videos/video2.mp4" preload="auto" webkit-playsinline playsinline loop muted crossorigin="anonymous"></video>
-    <video id="vid3" src="videos/video3.mp4" preload="auto" webkit-playsinline playsinline loop muted crossorigin="anonymous"></video>
-    <video id="vid4" src="videos/video4.mp4" preload="auto" webkit-playsinline playsinline loop muted crossorigin="anonymous"></video>
-    <video id="vid5" src="videos/video5.mp4" preload="auto" webkit-playsinline playsinline loop muted crossorigin="anonymous"></video>
-    <video id="vid6" src="videos/video6.mp4" preload="auto" webkit-playsinline playsinline loop muted crossorigin="anonymous"></video>
-</a-assets>
-<!-- Target 0 (รูป A) → Video 1 -->
-<a-entity mindar-image-target="targetIndex: 0">
-    <a-plane 
-        id="plane1"
-        material="src: #vid1; shader: flat; side: double; transparent: true;"
-        width="1" 
-        height="0.5625"
-        position="0 0 0"
-        rotation="0 0 0">
-    </a-plane>
-</a-entity>
+        <a-assets>
+            <video id="vid1" src="videos/video1.mp4" preload="auto" webkit-playsinline playsinline loop muted crossorigin="anonymous"></video>
+            <video id="vid2" src="videos/video2.mp4" preload="auto" webkit-playsinline playsinline loop muted crossorigin="anonymous"></video>
+            <video id="vid3" src="videos/video3.mp4" preload="auto" webkit-playsinline playsinline loop muted crossorigin="anonymous"></video>
+            <video id="vid4" src="videos/video4.mp4" preload="auto" webkit-playsinline playsinline loop muted crossorigin="anonymous"></video>
+            <video id="vid5" src="videos/video5.mp4" preload="auto" webkit-playsinline playsinline loop muted crossorigin="anonymous"></video>
+            <video id="vid6" src="videos/video6.mp4" preload="auto" webkit-playsinline playsinline loop muted crossorigin="anonymous"></video>
+        </a-assets>
 
-<!-- Target 1 (รูป B) → Video 2 -->
-<a-entity mindar-image-target="targetIndex: 1">
-    <a-plane 
-        id="plane2"
-        material="src: #vid2; shader: flat; side: double; transparent: true;"
-        width="1" 
-        height="0.5625"
-        position="0 0 0"
-        rotation="0 0 0">
-    </a-plane>
-</a-entity>
+        <!-- Target 0 (รูป A) → Video 1 -->
+        <a-entity mindar-image-target="targetIndex: 0">
+            <a-plane 
+                id="plane1"
+                material="src: #vid1; shader: flat; side: double; transparent: true;"
+                width="1" 
+                height="0.5625"
+                position="0 0 0"
+                rotation="0 0 0">
+            </a-plane>
+        </a-entity>
 
-<!-- Target 2 (รูป C) → Video 3 -->
-<a-entity mindar-image-target="targetIndex: 2">
-    <a-plane 
-        id="plane3"
-        material="src: #vid3; shader: flat; side: double; transparent: true;"
-        width="1" 
-        height="0.5625"
-        position="0 0 0"
-        rotation="0 0 0">
-    </a-plane>
-</a-entity>
+        <!-- Target 1 (รูป B) → Video 2 -->
+        <a-entity mindar-image-target="targetIndex: 1">
+            <a-plane 
+                id="plane2"
+                material="src: #vid2; shader: flat; side: double; transparent: true;"
+                width="1" 
+                height="0.5625"
+                position="0 0 0"
+                rotation="0 0 0">
+            </a-plane>
+        </a-entity>
 
-<!-- Target 3 (รูป D) → Video 4 -->
-<a-entity mindar-image-target="targetIndex: 3">
-    <a-plane 
-        id="plane4"
-        material="src: #vid4; shader: flat; side: double; transparent: true;"
-        width="1" 
-        height="0.5625"
-        position="0 0 0"
-        rotation="0 0 0">
-    </a-plane>
-</a-entity>
+        <!-- Target 2 (รูป C) → Video 3 -->
+        <a-entity mindar-image-target="targetIndex: 2">
+            <a-plane 
+                id="plane3"
+                material="src: #vid3; shader: flat; side: double; transparent: true;"
+                width="1" 
+                height="0.5625"
+                position="0 0 0"
+                rotation="0 0 0">
+            </a-plane>
+        </a-entity>
 
-<!-- Target 4 (รูป E) → Video 5 -->
-<a-entity mindar-image-target="targetIndex: 4">
-    <a-plane 
-        id="plane5"
-        material="src: #vid5; shader: flat; side: double; transparent: true;"
-        width="1" 
-        height="0.5625"
-        position="0 0 0"
-        rotation="0 0 0">
-    </a-plane>
-</a-entity>
+        <!-- Target 3 (รูป D) → Video 4 -->
+        <a-entity mindar-image-target="targetIndex: 3">
+            <a-plane 
+                id="plane4"
+                material="src: #vid4; shader: flat; side: double; transparent: true;"
+                width="1" 
+                height="0.5625"
+                position="0 0 0"
+                rotation="0 0 0">
+            </a-plane>
+        </a-entity>
 
-<!-- Target 5 (รูป F) → Video 6 -->
-<a-entity mindar-image-target="targetIndex: 5">
-    <a-plane 
-        id="plane6"
-        material="src: #vid6; shader: flat; side: double; transparent: true;"
-        width="1" 
-        height="0.5625"
-        position="0 0 0"
-        rotation="0 0 0">
-    </a-plane>
-</a-entity>
+        <!-- Target 4 (รูป E) → Video 5 -->
+        <a-entity mindar-image-target="targetIndex: 4">
+            <a-plane 
+                id="plane5"
+                material="src: #vid5; shader: flat; side: double; transparent: true;"
+                width="1" 
+                height="0.5625"
+                position="0 0 0"
+                rotation="0 0 0">
+            </a-plane>
+        </a-entity>
+
+        <!-- Target 5 (รูป F) → Video 6 -->
+        <a-entity mindar-image-target="targetIndex: 5">
+            <a-plane 
+                id="plane6"
+                material="src: #vid6; shader: flat; side: double; transparent: true;"
+                width="1" 
+                height="0.5625"
+                position="0 0 0"
+                rotation="0 0 0">
+            </a-plane>
+        </a-entity>
 
         <a-camera active="true" look-controls="enabled: false"></a-camera>
     </a-scene>
@@ -147,9 +158,11 @@
         const startScreen = document.getElementById('start-screen');
         const loading = document.getElementById('loading');
         const status = document.getElementById('status');
+        const unmuteBtn = document.getElementById('unmute-btn');
         
         let arStarted = false;
         let currentPlayingVideo = null;
+        let isMuted = true;
         
         startBtn.addEventListener('click', function() {
             startScreen.style.display = 'none';
@@ -163,6 +176,20 @@
                 arStarted = true;
                 showStatus('📷 ส่องกล้องไปที่รูปภาพ A-F');
             }, 3000);
+        });
+        
+        // ปุ่มเปิดเสียง
+        unmuteBtn.addEventListener('click', function() {
+            const videos = ['vid1', 'vid2', 'vid3', 'vid4', 'vid5', 'vid6'];
+            videos.forEach(function(vidId) {
+                const video = document.getElementById(vidId);
+                if (video) {
+                    video.muted = false;
+                }
+            });
+            isMuted = false;
+            unmuteBtn.style.display = 'none';
+            showStatus('🔊 เปิดเสียงแล้ว');
         });
         
         function showStatus(message) {
@@ -192,6 +219,10 @@
                 video.currentTime = 0;
                 video.play().then(function() {
                     currentPlayingVideo = videoId;
+                    // แสดงปุ่มเปิดเสียงถ้ายังไม่ได้เปิด
+                    if (isMuted) {
+                        unmuteBtn.style.display = 'block';
+                    }
                 }).catch(function(e) {
                     console.log('Play error:', e);
                 });
@@ -209,7 +240,7 @@
                 console.log('Target found:', targetIndex);
                 if (arStarted) {
                     playVideo(videoId);
-                    showStatus('✅  กำลังเล่นวิดีโอ ' + (targetIndex + 1));
+                    showStatus('✅ จับรูปได้! กำลังเล่นวิดีโอ ' + (targetIndex + 1));
                 }
             });
             
